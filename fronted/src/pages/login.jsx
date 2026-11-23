@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../context/User";
-import { SongData } from "../context/Songs";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,14 +8,14 @@ const Login = () => {
 
   const { loginUser, btnLoading } = UserData();
 
-  const { fetchSongs, fetchAlbums } = SongData();
+ 
 
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
 console.log(email, password)
-    loginUser(email, password, navigate, fetchSongs, fetchAlbums);
+    loginUser(email, password, navigate);
   };
 
   return (
