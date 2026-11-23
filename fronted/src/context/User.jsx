@@ -1,14 +1,16 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+
 const api = axios.create({
   baseURL: "https://showcase004-2.onrender.com",
   withCredentials: true,
 });
+
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -30,14 +32,15 @@ export const UserProvider = ({ children }) => {
       });
 
       toast.success(data.message);
-      setUser(data.user);
+      setUser(data.user ?? data);
       setIsAuth(true);
-      
+
       navigate("/");
-      fetchSongs();
-      fetchAlbums();
+      fetchSongs?.();
+      fetchAlbums?.();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
       setBtnLoading(false);
     }
   }
@@ -51,55 +54,62 @@ export const UserProvider = ({ children }) => {
       });
 
       toast.success(data.message);
-      setUser(data.user);
+      setUser(data.user ?? data);
       setIsAuth(true);
-     
+
       navigate("/");
-    
+      fetchSongs?.();
+      fetchAlbums?.();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Login failed");
+    } finally {
       setBtnLoading(false);
     }
   }
 
   async function fetchUser() {
     try {
-      const { data } = await axios.get("/api/user/me");
-
-      setUser(data);
+      const { data } = await api.get("/api/user/me");
+      setUser(data.user ?? data);
       setIsAuth(true);
-      setLoading(false);
     } catch (error) {
-      console.log(error);
+      setUser(null);
       setIsAuth(false);
+      if (error.response?.status !== 401) {
+        console.error(error);
+      }
+    } finally {
       setLoading(false);
     }
   }
 
   async function logoutUser() {
     try {
-      const { data } = await axios.get("/api/user/logout");
-
+      await api.get("/api/user/logout");
+      setUser(null);
+      setIsAuth(false);
       window.location.reload();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Logout failed");
     }
   }
 
   async function addToPlaylist(id) {
     try {
-      const { data } = api.post(`/api/user/song/${id}`);;
-
+      const { data } = await api.post(`/api/user/song/${id}`);
       toast.success(data.message);
       await fetchUser();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Could not update playlist"
+      );
     }
   }
 
   useEffect(() => {
     fetchUser();
   }, []);
+
   return (
     <UserContext.Provider
       value={{
