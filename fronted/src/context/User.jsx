@@ -1,7 +1,10 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-
+const api = axios.create({
+  baseURL: "https://showcase004-2.onrender.com",
+  withCredentials: true,
+});
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -20,7 +23,7 @@ export const UserProvider = ({ children }) => {
   ) {
     setBtnLoading(true);
     try {
-      const { data } = await axios.post("/api/user/register", {
+      const { data } = await api.post("/api/user/register", {
         name,
         email,
         password,
@@ -29,7 +32,7 @@ export const UserProvider = ({ children }) => {
       toast.success(data.message);
       setUser(data.user);
       setIsAuth(true);
-      setBtnLoading(false);
+      
       navigate("/");
       fetchSongs();
       fetchAlbums();
@@ -42,7 +45,7 @@ export const UserProvider = ({ children }) => {
   async function loginUser(email, password, navigate, fetchSongs, fetchAlbums) {
     setBtnLoading(true);
     try {
-      const { data } = await axios.post("/api/user/login", {
+      const { data } = await api.post("/api/user/login", {
         email,
         password,
       });
@@ -50,10 +53,9 @@ export const UserProvider = ({ children }) => {
       toast.success(data.message);
       setUser(data.user);
       setIsAuth(true);
-      setBtnLoading(false);
+     
       navigate("/");
-      fetchSongs();
-      fetchAlbums();
+    
     } catch (error) {
       toast.error(error.response.data.message);
       setBtnLoading(false);
@@ -86,10 +88,10 @@ export const UserProvider = ({ children }) => {
 
   async function addToPlaylist(id) {
     try {
-      const { data } = await axios.post("/api/user/song/" + id);
+      const { data } = api.post(`/api/user/song/${id}`);;
 
       toast.success(data.message);
-      fetchUser();
+      await fetchUser();
     } catch (error) {
       toast.error(error.response.data.message);
     }
