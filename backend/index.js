@@ -11,7 +11,7 @@ import userRouter from './src/routes/userRouter.js';
 const app = express()
 // http://localhost:5174/add-song
 // Set up CORS properly once before routes
-const allowedOrigins = ['https://showcase004-3.onrender.com/'];
+const allowedOrigins = ['https://showcase004-3.onrender.com'];
 
 app.use(cors({
   origin: function (origin, callback) {
