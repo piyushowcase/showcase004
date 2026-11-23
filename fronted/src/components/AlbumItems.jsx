@@ -40,4 +40,3 @@ const AlbumItems = React.memo(({ image, name, desc, id }) => {
 
 export default AlbumItems;
 
-export default AlbumItems;
