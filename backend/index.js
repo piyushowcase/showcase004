@@ -11,21 +11,22 @@ import userRouter from './src/routes/userRouter.js';
 const app = express()
 // http://localhost:5174/add-song
 // Set up CORS properly once before routes
-const allowedOrigins = ['https://showcase004-3.onrender.com'];
+const allowedOrigins = [
+  'https://showcase004-3.onrender.com',
+  'http://localhost:5174',
+];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+  origin(origin, callback) {
+    // Allow requests without an Origin header, such as curl.
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
-    return callback(null, true);
+    return callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 const port = process.env.PORT || 5000; // Updated default port to 5000 to match your frontend API URL
 
