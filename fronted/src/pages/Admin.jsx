@@ -9,7 +9,7 @@ import ListAlbum from './ListAlbum';
 import Sidebar from '../components/components1/Sidebar1';
 import Navbar from '../components/components1/Navbar1';
 
-export const url='http://localhost:5000'
+export const url = "https://showcase004-2.onrender.com";
 const Admin = () => {
   return (
     <div className=' h-screen flex items-start'>
