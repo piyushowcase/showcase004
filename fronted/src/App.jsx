@@ -9,7 +9,7 @@ import { UserData } from './context/User';
 import Loading from './components/Loading';
 import PlayList from './pages/Playelist';
 
-export const url = "https://showcase004-2.onrender.com/";
+export const url = "https://showcase004-2.onrender.com";
 
 const App = () => {
   const { audioRef, track, songsLoading } = useContext(PlayerContext);
