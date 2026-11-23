@@ -13,6 +13,7 @@ const app = express()
 // Set up CORS properly once before routes
 const allowedOrigins = [
   'https://showcase004-3.onrender.com',
+  'https://showcase004-2.onrender.com',
   'http://localhost:5174',
 ];
 
