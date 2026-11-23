@@ -54,8 +54,16 @@ const user=await User.findById(req.user._id);
 res.json(user);
 })
 export const logoutUser = TryCatch(async (req, res) => {
-  res.cookie("token", "", { maxAge: 0 });
-  res.json({ message: "logout successfully" });
+  const isProduction = process.env.NODE_ENV === "production";
+
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none" ,
+    secure: true,
+
+  });
+
+  res.status(200).json({ message: "logout successfully" });
 });
 export const saveToPlaylist = TryCatch(async (req, res) => {
   const user = await User.findById(req.user._id);
