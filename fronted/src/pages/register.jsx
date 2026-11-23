@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../context/User.jsx";
-import { SongData } from "../context/Songs.jsx";
+
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -12,13 +12,12 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const { fetchSongs, fetchAlbums } = SongData();
+
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    registerUser(name, email, password, navigate, 
-        // fetchSongs, fetchAlbums
+    registerUser(name, email, password, navigate
     );
   };
   return (
