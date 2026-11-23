@@ -5,15 +5,15 @@ import App from './App.jsx'
 import {BrowserRouter} from 'react-router-dom'
 import PlayerContextProvider from '../src/context/PlayerContext.jsx'
 import { UserProvider } from './context/User.jsx'
-import { SongProvider } from './context/Songs.jsx'
+
 createRoot(document.getElementById('root')).render(
 
     <BrowserRouter>
     <PlayerContextProvider>
       <UserProvider>
-        <SongProvider>
+        
            <App />
-        </SongProvider>
+      
       </UserProvider>
 
     </PlayerContextProvider>
