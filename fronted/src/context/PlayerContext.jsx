@@ -10,7 +10,7 @@ const PlayerContextProvider = (props) => {
   const seekBar=useRef()
   const seekBg=useRef()
 
-  const url="http://localhost:5000"
+  const url = "https://showcase004-2.onrender.com";
   const [songsData,setSongsData]=useState([])
   const [albumsData,setAlbumsData]=useState([])
 
